@@ -6,15 +6,15 @@ torchmetrics
 lightning-bolts
 
 # --------- hydra --------- #
-hydra-core==1.1.0.rc1
+hydra-core==1.2.0
 hydra-colorlog==1.1.0.dev1
-hydra-optuna-sweeper==1.1.0.dev2
+# hydra-optuna-sweeper==1.1.0.dev2 # for optuna-based HPO
 # hydra-ax-sweeper==1.1.0
 # hydra-ray-launcher==0.1.2
 # hydra-submitit-launcher==1.1.0
 
 # --------- loggers --------- #
-wandb>=0.10.30
+wandb>=0.12.21
 # neptune-client
 # mlflow
 # comet-ml
@@ -26,15 +26,23 @@ black
 isort
 flake8
 
+# --------- cores --------- #
+loguru>=0.6.0
+einops
+colorlog
+scikit-learn
+#numpy>=1.22.0
+
+# --------- visualization --------- #
+graphviz>=0.20.1
+
+# --------- for building nasbench-201 --------- #
+peewee
+
 # --------- others --------- #
-jupyterlab
-python-dotenv
+ipdb
+pyrootutils
 rich
 pytest
 sh
-scikit-learn
 seaborn
-pudb
-colorlog
-graphviz
-# dvc
