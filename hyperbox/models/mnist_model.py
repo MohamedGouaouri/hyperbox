@@ -46,9 +46,9 @@ class MNISTLitModel(LightningModule):
 
         # use separate metric instance for train, val and test step
         # to ensure a proper reduction over the epoch
-        self.train_accuracy = Accuracy()
-        self.val_accuracy = Accuracy()
-        self.test_accuracy = Accuracy()
+        self.train_accuracy = Accuracy(task='multiclass', num_classes=10)
+        self.val_accuracy = Accuracy(task='multiclass', num_classes=10)
+        self.test_accuracy = Accuracy(task='multiclass', num_classes=10)
 
     def forward(self, x: torch.Tensor):
         return self.model(x)
@@ -74,9 +74,9 @@ class MNISTLitModel(LightningModule):
         return {"loss": loss, "preds": preds, "targets": targets}
 
     def training_epoch_end(self, outputs: List[Any]):
-        acc_epoch = self.trainer.callback_metrics['train/acc_epoch'].item()
-        loss_epoch = self.trainer.callback_metrics['train/loss_epoch'].item()
-        logger.info(f'Train epoch{self.trainer.current_epoch} acc={acc_epoch:.4f} loss={loss_epoch:.4f}')
+        acc_epoch = self.trainer.callback_metrics['train/acc'].item()
+        loss_epoch = self.trainer.callback_metrics['train/loss'].item()
+        print(f'Train epoch{self.trainer.current_epoch} acc={acc_epoch:.4f} loss={loss_epoch:.4f}')
 
     def validation_step(self, batch: Any, batch_idx: int):
         loss, preds, targets = self.step(batch)
@@ -89,9 +89,10 @@ class MNISTLitModel(LightningModule):
         return {"loss": loss, "preds": preds, "targets": targets}
 
     def validation_epoch_end(self, outputs: List[Any]):
-        acc_epoch = self.trainer.callback_metrics['val/acc_epoch'].item()
-        loss_epoch = self.trainer.callback_metrics['val/loss_epoch'].item()
-        logger.info(f'Val epoch{self.trainer.current_epoch} acc={acc_epoch:.4f} loss={loss_epoch:.4f}')
+        # print(f' ZZZZZZZZZZZ {self.trainer.callback_metrics.keys()} ZZZZZZZZZZZ')
+        acc_epoch = self.trainer.callback_metrics['val/acc'].item()
+        loss_epoch = self.trainer.callback_metrics['val/loss'].item()
+        print(f'Val epoch{self.trainer.current_epoch} acc={acc_epoch:.4f} loss={loss_epoch:.4f}')
 
     def test_step(self, batch: Any, batch_idx: int):
         loss, preds, targets = self.step(batch)
@@ -106,7 +107,7 @@ class MNISTLitModel(LightningModule):
     def test_epoch_end(self, outputs: List[Any]):
         acc = self.trainer.callback_metrics['test/acc'].item()
         loss = self.trainer.callback_metrics['test/loss'].item()
-        logger.info(f'Test epoch{self.trainer.current_epoch} acc={acc:.4f} loss={loss:.4f}')
+        print(f'Test epoch{self.trainer.current_epoch} acc={acc:.4f} loss={loss:.4f}')
 
     def configure_optimizers(self):
         """Choose what optimizers and learning-rate schedulers to use in your optimization.
