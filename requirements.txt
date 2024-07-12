@@ -3,7 +3,7 @@ torch
 torchvision
 pytorch-lightning
 torchmetrics
-lightning-bolts
+lightning-bolts==0.7.0
 
 # --------- hydra --------- #
 hydra-core==1.2.0
